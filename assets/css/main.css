@@ -4523,7 +4523,7 @@ input, select, textarea {
 			text-rendering: auto;
 			line-height: 1;
 			text-transform: none !important;
-			font-family: "Source Sans Pro", Helvetica, sans-serif;
+			font-family: 'Font Awesome 5 Brands';
 			font-weight: 900;
 		}
 
@@ -4641,7 +4641,7 @@ input, select, textarea {
 				text-rendering: auto;
 				line-height: 1;
 				text-transform: none !important;
-				font-family: "Open Sans", sans-serif;
+				font-family: 'Font Awesome 5 Brands';
 				font-weight: 900;
 			}
 
@@ -4651,7 +4651,7 @@ input, select, textarea {
 			}
 
 			#navPanel .close:hover {
-				color: #212931;
+				color: #0b0c0c;
 			}
 
 			@media screen and (max-width: 736px) {
