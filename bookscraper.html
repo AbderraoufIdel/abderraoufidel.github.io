@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>BookScraper</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo">AI</a>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li class="active"><a href="index.html">Portfolio</a></li>
+							<li><a href="aboutme.html">About Me</a></li>
+							<li><a href="services.html">Services</a></li>
+							<li><a href="certifications.html">Certifications</a></li>
+						</ul>
+						<ul class="icons">
+							<li><a href="https://github.com/AbderraoufIdel" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="https://www.linkedin.com/in/abderraoufidel/" class="icon brands fa-linkedin-in"><span class="label">Linkedin</span></a></li>
+							<li><a href="https://x.com/AbderraoufIdel" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="https://www.facebook.com/idel.abderraouf.3" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="https://www.instagram.com/abderraouf_idel/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<span class="date">2020</span>
+									<h1>BookScraper</h1>
+									<p style="font-size: larger;">Source code: <a href="https://github.com/AbderraoufIdel/BookScrapy">GitHub</a></p>
+									<p>This project is a web scraping spider built using the Scrapy framework to extract detailed information about books from the <a href="https://books.toscrape.com/" target="_blank">Books to Scrape</a> website. The spider navigates through the website's pages, extracts book details, and stores them in a structured format for further analysis or use.</p>
+								</header>
+								<div class="image main"><img src="images/pic01.jpg" alt="" /></div>
+								<h2 id="overview">Project Overview</h2>
+        						<p>The <strong>BookScrapy</strong> spider is designed to efficiently scrape data from the "Books to Scrape" website, capturing a wide range of information about each book, including the title, price, availability, category, and more. This data can be used for various purposes, such as data analysis, price comparison, or building a recommendation system.</p>
+        						<h2 id="features">Features</h2>
+        						<ul>
+            						<li><strong>Comprehensive Scraping:</strong> The spider navigates through the website and extracts detailed information about each book.</li>
+            						<li><strong>Pagination Handling:</strong> Automatically follows pagination links to scrape all books listed on the website.</li>
+            						<li><strong>Data Extraction:</strong> Captures a variety of fields including title, price, availability, category, product type, and more.</li>
+            						<li><strong>Structured Output:</strong> The scraped data is organized and stored in a structured format, making it easy to analyze or use in other applications.</li>
+        						</ul>
+        						<h2 id="installation">Installation</h2>
+        						<p>To run this project, you need to have Python and Scrapy installed on your machine.</p>
+        						<ol>
+            						<li><strong>Clone the repository:</strong></li>
+        						</ol>
+								<pre>
+								<code>git clone https://github.com/yourusername/bookscrapy.git</code> <code>cd bookscrapy</code></pre>
+								<ol start="2">
+									<li><strong>Create and activate a virtual environment (optional but recommended):</strong></li>
+								</ol>
+								<pre><code>python3 -m venv venv</code> <code>source venv/bin/activate</code> <code>`venv\Scripts\activate` On Windows</code></pre>
+								<ol start="3">
+									<li><strong>Install the required dependencies:</strong></li>
+								</ol>
+								<pre><code>pip install scrapy </code></pre>
+								<h2 id="usage">Usage</h2>
+								<p>To run the spider and start scraping data from the website, use the following command:</p>
+								<pre><code>scrapy crawl bookscrapy </code></pre>
+								<p>This command will run the <strong>BookScrapy</strong> spider and store the scraped data in a <code>books_data.json</code> file.</p>
+								<h2 id="data">Scraped Data</h2>
+								<p>The spider extracts the following fields from each book:</p>
+								<ul>
+									<li><strong>URL:</strong> The URL of the book's detail page.</li>
+									<li><strong>Title:</strong> The title of the book.</li>
+									<li><strong>Price:</strong> The price of the book.</li>
+									<li><strong>UPC:</strong> Universal Product Code of the book.</li>
+									<li><strong>Product Type:</strong> The type of the product.</li>
+									<li><strong>Category:</strong> The category under which the book is listed.</li>
+									<li><strong>Price Excl. Tax:</strong> The price excluding tax.</li>
+									<li><strong>Price Incl. Tax:</strong> The price including tax.</li>
+									<li><strong>Tax:</strong> The tax amount.</li>
+									<li><strong>Availability:</strong> The number of copies available in stock.</li>
+									<li><strong>Number of Reviews:</strong> The number of reviews for the book.</li>
+									<li><strong>Stars:</strong> The star rating of the book.</li>
+									<li><strong>Description:</strong> A brief description of the book.</li>
+								</ul>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<section>
+						<form method="post" action="#">
+							<div class="fields">
+								<div class="field">
+									<label for="name">Name</label>
+									<input type="text" name="name" id="name" />
+								</div>
+								<div class="field">
+									<label for="email">Email</label>
+									<input type="text" name="email" id="email" />
+								</div>
+								<div class="field">
+									<label for="message">Message</label>
+									<textarea name="message" id="message" rows="3"></textarea>
+								</div>
+							</div>
+							<ul class="actions">
+								<li><input type="submit" value="Send Message" /></li>
+							</ul>
+						</form>
+					</section>
+					<section class="split contact">
+						<section >
+							<h3>Address</h3>
+							<p>Kaïs, Khenchela, Algeria</p>
+						</section>
+						<!-- <section>
+							<h3>Phone</h3>
+							<p><a href="#">(000) 000-0000</a></p>
+						</section> -->
+						<section>
+							<h3>Email</h3>
+							<p><a href="mailto:abderraoufidel@gmail.com">abderraoufidel@gmail.com</a></p>
+						</section>
+						<section>
+							<h3>Social</h3>
+							<ul class="icons alt">
+								<li><a href="https://github.com/AbderraoufIdel" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/abderraoufidel/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+								<li><a href="https://x.com/AbderraoufIdel" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/idel.abderraouf.3" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/abderraouf_idel/" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+								
+							</ul>
+						</section>
+					</section>
+				</footer>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					<ul><li>&copy; AbderraoufIDEL | 2024</li></ul>
+				</div>
+
+		</div>
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
