@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Web Scraping with LLaMA and Streamlit</title>
+		<style>
+			
+	
+			h2 {
+				color: #4CAF50;
+			}
+	
+			p, li {
+				color: #555;
+			}
+	
+			pre {
+				background-color: #333;
+				color: #f4f4f4;
+				padding: 10px;
+				overflow-x: auto;
+			}
+	
+			.code-section {
+				margin-bottom: 20px;
+			}
+	
+			.code-section h2 {
+				margin-bottom: 10px;
+			}
+	
+			.code-section pre {
+				margin-bottom: 15px;
+			}
+		</style>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo">AI</a>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li class="active"><a href="index.html">Portfolio</a></li>
+							<li><a href="aboutme.html">About Me</a></li>
+							<li><a href="services.html">Services</a></li>
+							<li><a href="certifications.html">Certifications</a></li>
+						</ul>
+						<ul class="icons">
+							<li><a href="https://github.com/AbderraoufIdel" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="https://www.linkedin.com/in/abderraoufidel/" class="icon brands fa-linkedin-in"><span class="label">Linkedin</span></a></li>
+							<li><a href="https://x.com/AbderraoufIdel" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="https://www.facebook.com/idel.abderraouf.3" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="https://www.instagram.com/abderraouf_idel/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<span class="date">2024</span>
+									<h1>ScraperAI</h1>
+									<p style="font-size: larger;">Source code: <a href="https://github.com/AbderraoufIdel/ScraperAI">GitHub</a></p>
+									<p>This project demonstrates how to scrape a website using Selenium, process the content with BeautifulSoup, and then extract specific data using the LLaMA AI model. The user provides a URL and a description of the data they want to extract, and the system performs the scraping and parsing tasks.</p>
+								</header>
+								<div class="image main"><img src="images/pic01.jpg" alt="" /></div>
+								
+        						<div class="container">
+									<h2>Step-by-Step Instructions for Setup:</h2>
+									<div class="step">
+										<h3>Step 1: Clone the Repository</h3>
+										<pre>git clone https://github.com/AbderraoufIdel/ScraperAI</pre>
+										<pre>cd ScraperAI</pre>
+									</div>
+							
+									<div class="step">
+										<h3>Step 2: Create a Virtual Environment</h3>
+										<pre>python3 -m venv env</pre>
+										<pre>source env/bin/activate</pre> 
+										<pre># Windows: env\Scripts\activate</pre>
+									</div>
+							
+									<div class="step">
+										<h3>Step 3: Install the Required Packages</h3>
+										<pre>pip install -r requirements.txt</pre>
+									</div>
+							
+									<div class="step">
+										<h3>Step 4: Run the Project</h3>
+										<pre>streamlit run main.py</pre>
+									</div>
+							
+									<h2 id="overview">Project Overview</h2>
+							
+									<div class="code-section">
+										<h2>1. main.py - Streamlit UI and Workflow Control</h2>
+										<p>The <code>main.py</code> file manages the user interface (UI) and orchestrates the scraping and parsing process. The user enters the website URL and the content they wish to parse, and this file triggers the necessary functions from <code>scraper.py</code> and <code>parse.py</code>.</p>
+							
+										<pre>
+import streamlit as st
+from scraper import (
+	scrape_website,
+	extract_body_content,
+	clean_body_content,
+	split_dom_content,
+)
+from parse import parse_with_ollama
+
+# Streamlit UI
+st.title("ScraperAI")
+url = st.text_input("Enter Website URL")
+
+# Step 1: Scrape the Website
+if st.button("Scrape Website"):
+	if url:
+		st.write("Scraping the website...")
+
+		# Scrape the website
+		dom_content = scrape_website(url)
+		body_content = extract_body_content(dom_content)
+		cleaned_content = clean_body_content(body_content)
+
+		# Store the DOM content in Streamlit session state
+		st.session_state.dom_content = cleaned_content
+
+		# Display the DOM content in an expandable text box
+		with st.expander("View DOM Content"):
+			st.text_area("DOM Content", cleaned_content, height=300)
+
+# Step 2: Ask Questions About the DOM Content
+if "dom_content" in st.session_state:
+	parse_description = st.text_area("Describe what you want to parse")
+
+	if st.button("Parse Content"):
+		if parse_description:
+			st.write("Parsing the content...")
+
+			# Parse the content with Ollama
+			dom_chunks = split_dom_content(st.session_state.dom_content)
+			parsed_result = parse_with_ollama(dom_chunks, parse_description)
+			st.write(parsed_result)
+										</pre>
+									</div>
+							
+									<div class="code-section">
+										<h2>2. scraper.py - Web Scraping and Data Cleaning</h2>
+										<p>The <code>scraper.py</code> file handles web scraping using Selenium and Chrome WebDriver. After scraping the webpage, it processes and cleans the data using BeautifulSoup to remove unnecessary content like JavaScript and CSS.</p>
+							
+										<pre>
+from selenium.webdriver import Remote, ChromeOptions
+from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection
+from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+import os
+
+AUTH = 'user:pass'
+SBR_WEBDRIVER = f'https://{AUTH}@zproxy.lum-superproxy.io:####'
+
+def scrape_website(website):
+	print("Connecting to Scraping Browser...")
+	sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, "goog", "chrome")
+	with Remote(sbr_connection, options=ChromeOptions()) as driver:
+		driver.get(website)
+		print("Waiting captcha to solve...")
+		solve_res = driver.execute(
+			"executeCdpCommand",
+			{
+				"cmd": "Captcha.waitForSolve",
+				"params": {"detectTimeout": 10000},
+			},
+		)
+		print("Captcha solve status:", solve_res["value"]["status"])
+		html = driver.page_source
+		return html
+
+def extract_body_content(html_content):
+	soup = BeautifulSoup(html_content, "html.parser")
+	body_content = soup.body
+	return str(body_content) if body_content else ""
+
+def clean_body_content(body_content):
+	soup = BeautifulSoup(body_content, "html.parser")
+							
+	for script_or_style in soup(["script", "style"]):
+		script_or_style.extract()
+	
+	cleaned_content = soup.get_text(separator="\n")
+	cleaned_content = "\n".join(
+		line.strip() for line in cleaned_content.splitlines() if line.strip()
+	)
+							
+	return cleaned_content
+
+def split_dom_content(dom_content, max_length=6000):
+	return [
+		dom_content[i : i + max_length] for i in range(0, len(dom_content), max_length)
+	]
+										</pre>
+									</div>
+							
+									<div class="code-section">
+										<h2>3. parse.py - Parsing Data with LLaMA AI Model</h2>
+										<p>The <code>parse.py</code> file uses the LLaMA AI model to extract specific information from the cleaned HTML content. The model processes the text and returns only the data requested by the user, ensuring that no unnecessary information is included.</p>
+							
+										<pre>
+from langchain_ollama import OllamaLLM
+from langchain_core.prompts import ChatPromptTemplate
+
+template = (
+	"You are tasked with extracting specific information from the following text content: {dom_content}. "
+	"Please follow these instructions carefully: \n\n"
+	"1. **Extract Information:** Only extract the information that directly matches the provided description: {parse_description}. "
+	"2. **No Extra Content:** Do not include any additional text, comments, or explanations in your response. "
+	"3. **Empty Response:** If no information matches the description, return an empty string ('')."
+	"4. **Direct Data Only:** Your output should contain only the data that is explicitly requested, with no other text."
+)
+
+model = OllamaLLM(model="llama3.1")
+
+def parse_with_ollama(dom_chunks, parse_description):
+	prompt = ChatPromptTemplate.from_template(template)
+	chain = prompt | model
+
+	parsed_results = []
+
+	for i, chunk in enumerate(dom_chunks, start=1):
+		response = chain.invoke(
+			{"dom_content": chunk, "parse_description": parse_description}
+		)
+		print(f"Parsed batch: {i} of {len(dom_chunks)}")
+		parsed_results.append(response)
+
+	return "\n".join(parsed_results)
+										</pre>
+									</div>
+								</div>
+							
+								</div>
+
+					</div>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<section>
+						<form method="post" action="#">
+							<div class="fields">
+								<div class="field">
+									<label for="name">Name</label>
+									<input type="text" name="name" id="name" />
+								</div>
+								<div class="field">
+									<label for="email">Email</label>
+									<input type="text" name="email" id="email" />
+								</div>
+								<div class="field">
+									<label for="message">Message</label>
+									<textarea name="message" id="message" rows="3"></textarea>
+								</div>
+							</div>
+							<ul class="actions">
+								<li><input type="submit" value="Send Message" /></li>
+							</ul>
+						</form>
+					</section>
+					<section class="split contact">
+						<section >
+							<h3>Address</h3>
+							<p>Kaïs, Khenchela, Algeria</p>
+						</section>
+						<!-- <section>
+							<h3>Phone</h3>
+							<p><a href="#">(000) 000-0000</a></p>
+						</section> -->
+						<section>
+							<h3>Email</h3>
+							<p><a href="mailto:abderraoufidel@gmail.com">abderraoufidel@gmail.com</a></p>
+						</section>
+						<section>
+							<h3>Social</h3>
+							<ul class="icons alt">
+								<li><a href="https://github.com/AbderraoufIdel" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/abderraoufidel/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+								<li><a href="https://x.com/AbderraoufIdel" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/idel.abderraouf.3" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/abderraouf_idel/" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+								
+							</ul>
+						</section>
+					</section>
+				</footer>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					<ul><li>&copy; AbderraoufIDEL | 2024</li></ul>
+				</div>
+
+		</div>
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
